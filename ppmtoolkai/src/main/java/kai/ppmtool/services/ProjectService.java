@@ -22,7 +22,7 @@ public class ProjectService {
         }
     }
 
-    // postman get
+    // postman get http://localhost:8080/api/project/IDxx
     public Project findProjectByIdentifier(String projectId){
 
         Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
@@ -31,6 +31,22 @@ public class ProjectService {
             throw new ProjectIdException("Project ID '"+projectId+"' does not exist");
         }
         return project;
+    }
+
+    // postman get http://localhost:8080/api/project/all
+    public Iterable<Project> findAllProjects(){
+        return projectRepository.findAll();
+    }
+
+    // postman delete http://localhost:8080/api/project/IDXX
+    public void deleteProjectByIdentifier(String projectid) {
+        Project project = projectRepository.findByProjectIdentifier(projectid.toUpperCase());
+
+        if (project == null) {
+            throw new ProjectIdException("Cannot Project with ID '" + projectid + "'. This project does not exist");
+        }
+
+        projectRepository.delete(project);
     }
 
 }
